@@ -1,3 +1,40 @@
+<!-- ###################################################### 
+ App (config) 
+-->
+
+<script type="text/x-red" data-template-name="wit-app">
+    <div class="form-row">
+        <label for="node-config-input-name"><i class="fa fa-globe"></i> Name</label>
+        <input type="text" id="node-config-input-name">
+    </div>
+    <div class="form-row">
+        <label for="node-config-input-token"><i class="fa fa-tag"></i> Token</label>
+        <input type="text" id="node-config-input-token">
+    </div>
+</script>
+
+<script type="text/x-red" data-help-name="wit-app">
+    <p>Help about the wit app</p>
+</script>
+
+<script type="text/javascript">
+    RED.nodes.registerType('wit-app',{
+        category: 'config',
+        defaults: {
+            name: {value:"My Wit App", required:true},
+            token: {value:"",required:true}
+        },
+        label: function() {
+            return this.name;
+        }
+    });
+</script>
+
+
+<!-- ###################################################### 
+ Message 
+-->
+
 <script type="text/x-red" data-template-name="wit-message">
     <div class="form-row">
         <label for="node-input-app"><i class="fa fa-globe"></i> Wit App</label>
@@ -38,7 +75,11 @@
     });
 </script>
 
-<script type="text/x-red" data-template-name="wit-action-out">
+<!-- ###################################################### 
+ Converse 
+-->
+
+<script type="text/x-red" data-template-name="wit-converse">
     <div class="form-row">
         <label for="node-input-app"><i class="fa fa-globe"></i> Wit App</label>
         <input type="text" id="node-input-app">
@@ -49,12 +90,134 @@
     </div>
 </script>
 
-<script type="text/x-red" data-help-name="wit-action-out">
-    <p>TBD help about action responses</p>
+<script type="text/x-red" data-help-name="wit-converse">
+    <p>TBD help about converse</p>
 </script>
 
 <script type="text/javascript">
-    RED.nodes.registerType('wit-action-out',{
+    RED.nodes.registerType('wit-converse',{
+        category: 'wit_ai',
+        defaults: {
+            name: {value:""},
+            app: {type:"wit-app", required:true}
+        },
+        color:"#AAC9EC",
+        inputs:1,
+        outputs:0,
+        icon: "wit.png",
+        label: function() {
+            return this.name||'converse';
+        },
+        labelStyle: function() {
+            return this.name?"node_label_italic":"";
+        }
+    });
+</script>
+
+<!-- ###################################################### 
+ Merge 
+-->
+
+<script type="text/x-red" data-template-name="wit-merge">
+    <div class="form-row">
+        <label for="node-input-app"><i class="fa fa-globe"></i> Wit App</label>
+        <input type="text" id="node-input-app">
+    </div>
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</span></label>
+        <input type="text" id="node-input-name">
+    </div>
+</script>
+
+<script type="text/x-red" data-help-name="wit-merge">
+    <p>TBD help about merge</p>
+</script>
+
+<script type="text/javascript">
+    RED.nodes.registerType('wit-merge',{
+        category: 'wit_ai',
+        defaults: {
+            name: {value:""},
+            app: {type:"wit-app", required:true}
+        },
+        color:"#AAC9EC",
+        inputs:0,
+        outputs:1,
+        icon: "wit.png",
+        label: function() {
+            return this.name||"merge";
+        },
+        labelStyle: function() {
+            return this.name?"node_label_italic":"";
+        }
+    });
+</script>
+
+<!-- ###################################################### 
+ Action 
+-->
+
+<script type="text/x-red" data-template-name="wit-action">
+    <div class="form-row">
+        <label for="node-input-app"><i class="fa fa-globe"></i> Wit App</label>
+        <input type="text" id="node-input-app">
+    </div>
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Action</span></label>
+        <input type="text" id="node-input-action">
+    </div>
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</span></label>
+        <input type="text" id="node-input-name">
+    </div>
+</script>
+
+<script type="text/x-red" data-help-name="wit-action">
+    <p>TBD help about actions</p>
+</script>
+
+<script type="text/javascript">
+    RED.nodes.registerType('wit-action',{
+        category: 'wit_ai',
+        defaults: {
+            name: {value:""},
+            app: {type:"wit-app", required:true},
+            action: {value:"", required:true}
+        },
+        color:"#AAC9EC",
+        inputs:0,
+        outputs:1,
+        icon: "wit.png",
+        label: function() {
+            return this.action||this.name||'action';
+        },
+        labelStyle: function() {
+            return this.name?"node_label_italic":"";
+        }
+    });
+</script>
+
+<!-- ###################################################### 
+ Response 
+-->
+
+<script type="text/x-red" data-template-name="wit-response">
+    <div class="form-row">
+        <label for="node-input-app"><i class="fa fa-globe"></i> Wit App</label>
+        <input type="text" id="node-input-app">
+    </div>
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</span></label>
+        <input type="text" id="node-input-name">
+    </div>
+</script>
+
+<script type="text/x-red" data-help-name="wit-response">
+    <p>TBD help about responses</p>
+</script>
+
+<script type="text/javascript">
+    RED.nodes.registerType('wit-response',{
         category: 'wit_ai',
         defaults: {
             name: {value:""},
@@ -74,24 +237,14 @@
     });
 </script>
 
-<script type="text/x-red" data-template-name="wit-action-in">
+<!-- ###################################################### 
+ Say 
+-->
+
+<script type="text/x-red" data-template-name="wit-say">
     <div class="form-row">
         <label for="node-input-app"><i class="fa fa-globe"></i> Wit App</label>
         <input type="text" id="node-input-app">
-    </div>
-    <div class="form-row">
-        <label for=""><i class="fa fa-tasks"></i> Type</span></label>
-        <select id="wit-action-in-type-select" style="width: 73%">
-            <option value="merge">Merge</option>
-            <option value="say">Say</option>
-            <option value="error">Error</option>
-            <option value="action">Action</option>
-        </select>
-        <input type="hidden" id="node-input-actionType">
-    </div>
-    <div class="form-row action-row hidden" id="wit-action-row-action">
-        <label for="node-input-ation"><i class="fa fa-function"></i> Action</label>
-        <input type="text" id="node-input-action">
     </div>
     <div class="form-row">
         <label for="node-input-name"><i class="fa fa-tag"></i> Name</span></label>
@@ -99,85 +252,67 @@
     </div>
 </script>
 
-<script type="text/x-red" data-help-name="wit-action-in">
-    <p>TBD help about actions</p>
+<script type="text/x-red" data-help-name="wit-say">
+    <p>TBD help about say</p>
 </script>
 
 <script type="text/javascript">
-    RED.nodes.registerType('wit-action-in',{
+    RED.nodes.registerType('wit-say',{
         category: 'wit_ai',
         defaults: {
             name: {value:""},
-            app: {type:"wit-app", required:true},
-            action: {value:""},
-            actionType: {value:"action", required:true}
+            app: {type:"wit-app", required:true}
         },
         color:"#AAC9EC",
         inputs:0,
         outputs:1,
         icon: "wit.png",
         label: function() {
-            if(this.name) {
-                return this.name;
-            } else if (this.actionType === "action") {
-                return this.action;
-            } else {
-                return this.actionType||'wit action in';
-            }
+            return this.name||"say";
         },
         labelStyle: function() {
             return this.name?"node_label_italic":"";
-        },
-        oneditprepare: function() {
-
-            var actionType = this.actionType;
-            if(actionType == null) {
-                actionType = 'action';
-            }
-            $("#wit-action-in-type-select").change(function() {
-                var val = $("#wit-action-in-type-select option:selected").val();
-                if(val === 'action') {
-                    $('#wit-action-row-action').show();
-                } else {
-                    $('#wit-action-row-action').hide();
-                }
-            });
-
-            $("#wit-action-in-type-select option").filter(function() {return $(this).val() == actionType;}).attr('selected',true);
-
-            $("#wit-action-in-type-select").change();
-        },
-        oneditsave: function() {
-            var actionType = $("#wit-action-in-type-select option:selected").val();
-            $("#node-input-actionType").val(actionType);
         }
     });
 </script>
 
-<script type="text/x-red" data-template-name="wit-app">
+
+<!-- ###################################################### 
+ Error 
+-->
+
+<script type="text/x-red" data-template-name="wit-error">
     <div class="form-row">
-        <label for="node-config-input-name"><i class="fa fa-globe"></i> Name</label>
-        <input type="text" id="node-config-input-name">
+        <label for="node-input-app"><i class="fa fa-globe"></i> Wit App</label>
+        <input type="text" id="node-input-app">
     </div>
     <div class="form-row">
-        <label for="node-config-input-token"><i class="fa fa-tag"></i> Token</label>
-        <input type="text" id="node-config-input-token">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</span></label>
+        <input type="text" id="node-input-name">
     </div>
 </script>
 
-<script type="text/x-red" data-help-name="wit-app">
-    <p>Help about the wit app</p>
+<script type="text/x-red" data-help-name="wit-error">
+    <p>TBD help about error</p>
 </script>
 
 <script type="text/javascript">
-    RED.nodes.registerType('wit-app',{
-        category: 'config',
+    RED.nodes.registerType('wit-error',{
+        category: 'wit_ai',
         defaults: {
-            name: {value:"My Wit App", required:true},
-            token: {value:"",required:true}
+            name: {value:""},
+            app: {type:"wit-app", required:true}
         },
+        color:"#AAC9EC",
+        inputs:0,
+        outputs:1,
+        icon: "wit.png",
         label: function() {
-            return this.name;
+            return this.name||"error";
+        },
+        labelStyle: function() {
+            return this.name?"node_label_italic":"";
         }
     });
 </script>
+
