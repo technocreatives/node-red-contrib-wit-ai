@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>Node-red-contrib-wit-ai by technocreatives</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">Node-red-contrib-wit-ai</h1>
+      <h2 class="project-tagline">Wit.ai integration for Node-RED</h2>
+      <a href="https://github.com/technocreatives/node-red-contrib-wit-ai" class="btn">View on GitHub</a>
+      <a href="https://github.com/technocreatives/node-red-contrib-wit-ai/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/technocreatives/node-red-contrib-wit-ai/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
+
+    <section class="main-content">
+      <h1>
+<a id="node-red-contrib-wit-ai" class="anchor" href="#node-red-contrib-wit-ai" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>node-red-contrib-wit-ai</h1>
+
+<p><a href="http://nodered.org">Node-RED</a> nodes to integrate with <a href="http://wit.ai">Wit.ai</a>.</p>
+
+<h2>
+<a id="install" class="anchor" href="#install" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Install</h2>
+
+<p>Run the following command in your Node-RED user directory - typically <code>~/.node-red</code></p>
+
+<pre><code>    npm install node-red-contrib-wit-ai
+</code></pre>
+
+<p>Make sure you have an account and an app at <a href="https://wit.ai/">https://wit.ai/</a>. You will need the <code>Server Access Token</code> that can be found in the Settings menu of your Wit.ai app.</p>
+
+<h2>
+<a id="witai-api-conformance" class="anchor" href="#witai-api-conformance" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Wit.ai API conformance</h2>
+
+<p>20160330</p>
+
+<p><a href="https://wit.ai/docs/http/20160330">https://wit.ai/docs/http/20160330</a></p>
+
+<h2>
+<a id="usage" class="anchor" href="#usage" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Usage</h2>
+
+<p>Provides these nodes:</p>
+
+<p>Note: One each of <strong>Merge</strong>, <strong>Say</strong> and <strong>Error</strong> are required to be in the flow. Also, one <strong>Action</strong> node for each defined action is required.</p>
+
+<h3>
+<a id="wit-message" class="anchor" href="#wit-message" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Wit Message</h3>
+
+<p>Takes a sentence and returns the meaning.</p>
+
+<p>Expects the <code>payload</code> to be a <code>String</code>.</p>
+
+<p>Uses wit.ai's <code>/message</code> endpoint.</p>
+
+<p>Does not yet support the <code>context</code>, <code>msg_id</code>, <code>thread_id</code>, and <code>n</code> parameters.</p>
+
+<h3>
+<a id="wit-converse" class="anchor" href="#wit-converse" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Wit Converse</h3>
+
+<p>This is the node where you send a question or statement to your Wit.ai bot. Typically you would hook this up to a messaging app like Slack or Facebook Messanger.</p>
+
+<p>You can provide a <code>sessionId</code> and a <code>context</code> along with the <code>payload</code>. If not, they will be created for you.</p>
+
+<p>After the <strong>Converse</strong> node has been given a message, the <strong>Merge</strong>, <strong>Action</strong> and <strong>Say</strong> nodes will trigger.</p>
+
+<h3>
+<a id="wit-merge" class="anchor" href="#wit-merge" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Wit Merge</h3>
+
+<p>For each configured Wit.ai bot you must provide one single <strong>Merge</strong> node. After a message has been sent to the bots <strong>Converse</strong> node, the <strong>Merge</strong> node will trigger and send a message with a <code>context</code> and <code>entities</code>.</p>
+
+<p>Attach a <strong>Function</strong> node to the merge node and modify the provided <code>context</code> depending on the recieved <code>entities</code>.</p>
+
+<p>The <strong>Function</strong> node must then send the message along to a <strong>Response</strong> node configured for the same Wit.ai bot as the <strong>Merge</strong> node where the message originated.</p>
+
+<p>Its best if you keep the same <code>msg</code> object through your flow, so to not loose any meta information stored by the Wit.ai bot.</p>
+
+<h3>
+<a id="wit-action" class="anchor" href="#wit-action" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Wit Action</h3>
+
+<p>If you have configured an action in any of your Wit.ai stories, you need to create an <strong>Action</strong> node in your flow with the same action name.</p>
+
+<p>This node will be triggered if the conversation identifies this action.</p>
+
+<p>Like the <strong>Merge</strong> node, you should let the message from an <strong>Action</strong> node continue to a <strong>Response</strong> node. Modify the <code>msg</code> object, but don't replace it.</p>
+
+<p>You can only have one <strong>Action</strong> node for each action on a bot.</p>
+
+<h3>
+<a id="wit-response" class="anchor" href="#wit-response" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Wit Response</h3>
+
+<p>A <strong>Response</strong> node takes the message from a <strong>Merge</strong> or <strong>Action</strong> node and makes sure the conversation continues.</p>
+
+<h3>
+<a id="wit-say" class="anchor" href="#wit-say" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Wit Say</h3>
+
+<p>The <strong>Say</strong> node is triggered when the bot has something to say. Typically you would forward the <code>payload</code> to a messaging system like Slack or Facebook Messanger.</p>
+
+<h3>
+<a id="wit-error" class="anchor" href="#wit-error" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Wit Error</h3>
+
+<p>The <strong>Error</strong> node outputs any errors that was enconuntered during the conversation. This could be forwarded to a messaging system.</p>
+
+<h3>
+<a id="sample-flow" class="anchor" href="#sample-flow" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Sample Flow</h3>
+
+<p>TBD</p>
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/technocreatives/node-red-contrib-wit-ai">Node-red-contrib-wit-ai</a> is maintained by <a href="https://github.com/technocreatives">technocreatives</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+      </footer>
+
+    </section>
+
+  
+  </body>
+</html>
