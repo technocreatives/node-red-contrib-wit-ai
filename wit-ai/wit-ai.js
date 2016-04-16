@@ -141,4 +141,7 @@ module.exports = function(RED) {
     this.actionType = n.acionType;
   }
 
+  RED.nodes.registerType('wit-action-out', WitActionOutNode);
+
+
 };
