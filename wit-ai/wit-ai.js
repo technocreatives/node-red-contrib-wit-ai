@@ -110,4 +110,35 @@ module.exports = function(RED) {
 
   RED.nodes.registerType('wit-message', WitMessageNode);
 
+  function WitActionInNode(n) {
+    RED.nodes.createNode(this,n);
+
+    this.app = RED.nodes.getNode(n.app);
+    var node = this;
+
+    if(!this.app) {
+      this.error(RED._('Missing Wit App'));
+      return;
+    }
+
+    this.actionType = n.acionType;
+
+  }
+
+  RED.nodes.registerType('wit-action-in', WitActionInNode);
+
+  function WitActionOutNode(n) {
+    RED.nodes.createNode(this,n);
+
+    this.app = RED.nodes.getNode(n.app);
+    var node = this;
+
+    if(!this.app) {
+      this.error(RED._('Missing Wit App'));
+      return;
+    }
+
+    this.actionType = n.acionType;
+  }
+
 };
