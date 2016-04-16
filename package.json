@@ -1,0 +1,30 @@
+{
+  "name": "node-red-contrib-wit-ai",
+  "version": "0.0.1",
+  "description": "Node RED Wit.ai integration",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/technocreatives/node-red-contrib-wit-ai.git"
+  },
+  "keywords": [
+    "node-red",
+    "wit.ai",
+    "bot"
+  ],
+  "node-red": {
+    "nodes": {
+      "wit-ai": "wit-ai/wit-ai.js"
+    }
+  },
+  "author": "oskar.hagberg@gmail.com",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/technocreatives/node-red-contrib-wit-ai/issues"
+  },
+  "homepage": "https://github.com/technocreatives/node-red-contrib-wit-ai#readme",
+  "dependencies": {
+    "node-uuid": "^1.4.7",
+    "request": "^2.71.0"
+  }
+}

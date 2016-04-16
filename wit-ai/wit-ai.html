@@ -1,0 +1,67 @@
+<script type="text/x-red" data-template-name="wit-message">
+    <div class="form-row">
+        <label for="node-input-app"><i class="fa fa-globe"></i> Wit App</label>
+        <input type="text" id="node-input-app">
+    </div>
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</span></label>
+        <input type="text" id="node-input-name">
+    </div>
+</script>
+
+<script type="text/x-red" data-help-name="wit-message">
+    <p>Return the meaning of a sentence</p>
+    <p>Requires a message with the properties:</p>
+    <ul>
+       <li><code>msg.payload</code></li>
+    </ul>
+    <p><code>msg.payload</code> will be treated as a String</p>
+</script>
+
+<script type="text/javascript">
+    RED.nodes.registerType('wit-message',{
+        category: 'wit_ai',
+        defaults: {
+            name: {value:""},
+            app: {type:"wit-app", required:true}
+        },
+        color:"#AAC9EC",
+        inputs:1,
+        outputs:1,
+        icon: "wit.png",
+        label: function() {
+            return this.name||"wit message";
+        },
+        labelStyle: function() {
+            return this.name?"node_label_italic":"";
+        }
+    });
+</script>
+
+<script type="text/x-red" data-template-name="wit-app">
+    <div class="form-row">
+        <label for="node-config-input-name"><i class="fa fa-globe"></i> Name</label>
+        <input type="text" id="node-config-input-name">
+    </div>
+    <div class="form-row">
+        <label for="node-config-input-token"><i class="fa fa-tag"></i> Token</label>
+        <input type="text" id="node-config-input-token">
+    </div>
+</script>
+
+<script type="text/x-red" data-help-name="wit-app">
+    <p>Help about the wit app</p>
+</script>
+
+<script type="text/javascript">
+    RED.nodes.registerType('wit-app',{
+        category: 'config',
+        defaults: {
+            name: {value:"My Wit App", required:true},
+            token: {value:"",required:true}
+        },
+        label: function() {
+            return this.name;
+        }
+    });
+</script>
