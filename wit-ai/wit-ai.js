@@ -201,6 +201,7 @@ module.exports = function(RED) {
             _action: action,
             sessionId: sessionId, 
             context: clonedContext, 
+            entities: json.entities,
             payload: message
           });
           // TODO. store a timeout to warn if no one picks up this msg
